@@ -1,0 +1,59 @@
+services:
+  - type: web
+    name: willcoll-api
+    runtime: docker
+    dockerfilePath: ./backend/build/Dockerfile
+    dockerContext: ./backend
+    region: frankfurt
+    healthCheckPath: /v1/healthcheck # replace with your real path
+    envVars:
+      - key: ENV
+        value: production
+      - key: DB_MAX_OPEN_CONNS
+        value: "5"
+      - key: DB_MAX_IDLE_CONNS
+        value: "5"
+      - key: DB_MAX_IDLE_TIME
+        value: 15m
+      - key: DB_DSN
+        sync: false
+      - key: DB_ADMIN_DSN
+        sync: false
+      - key: PAY_SESSION_SECRET
+        sync: false
+      - key: PAYHERO_BASE_URL
+        value: https://backend.payhero.co.ke
+      - key: PAYHERO_API_KEY
+        sync: false
+      - key: PAYHERO_WEBHOOK_SECRET
+        sync: false
+      - key: PAYHERO_CALLBACK_BASE_URL
+        sync: false
+      - key: PAYHERO_BILLING_CHANNEL_ID
+        sync: false
+      - key: PAYHERO_COLLECTIONS_CHANNEL_ID
+        sync: false
+      - key: PAYHERO_ACCOUNT_ID
+        sync: false
+      - key: QR_BASE_URL
+        sync: false
+      - key: AFRICASTALKING_API_KEY
+        sync: false
+      - key: AFRICASTALKING_USERNAME
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USERNAME
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_SENDER
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: CORS_TRUSTED_ORIGINS
+        sync: false
