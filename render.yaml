@@ -4,6 +4,7 @@ services:
     runtime: docker
     dockerfilePath: ./backend/build/Dockerfile
     dockerContext: ./backend
+    plan: free
     region: frankfurt
     healthCheckPath: /v1/healthcheck # replace with your real path
     envVars:
