@@ -316,16 +316,22 @@ func (s *seeder) setupFirm() {
 	s.must(s.m.Managers.Update(s.ctx, mgr), "activate manager")
 	s.tenant = mgr.ID
 
-	// An active Professional subscription, paid the way a real one is: an
+	// An active Growth subscription, paid the way a real one is: an
 	// invoice, then the PayHero callback settling it.
 	plans, err := s.m.Platform.ListPlans(s.ctx)
 	s.must(err, "list plans")
 	var pro data.Plan
+	found := false
 	for _, p := range plans {
-		if p.Name == "Professional" {
+		if p.Name == "Growth" {
 			pro = p.Plan
+			found = true
 		}
 	}
+	if !found {
+		log.Fatal(`seed: plan "Growth" not found in subscription_plans`)
+	}
+
 	ren, err := s.m.Billing.StartRenewal(s.ctx, s.tenant, &pro.ID)
 	s.must(err, "start subscription")
 	_, err = s.m.Billing.ProcessSubscriptionPayment(s.ctx, &payhero.SubscriptionsWebhookPayload{
