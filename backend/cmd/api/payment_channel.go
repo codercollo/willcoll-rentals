@@ -137,7 +137,7 @@ func (app *application) registerPaymentChannelHandler(c *gin.Context) {
 	}
 
 	if err := app.writeJSON(c, http.StatusOK, envelope{
-		"channel": envelope{"id": channel.ID, "account_number": channel.AccountNumber, "reused": reused},
+		"channel":  envelope{"id": channel.ID, "account_number": channel.AccountNumber, "reused": reused},
 		"property": property,
 	}, nil); err != nil {
 		app.serverErrorResponse(c, err)
