@@ -44,10 +44,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version-file: backend/go.mod
           cache-dependency-path: backend/go.sum
@@ -73,6 +73,11 @@ jobs:
       - name: Unit tests
         run: go test -race -vet=off ./...
 
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
       - name: Install PostgreSQL migration tool
         run: |
           go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
@@ -80,8 +85,6 @@ jobs:
 
       - name: Create database roles
         run: |
-          sudo apt-get update
-          sudo apt-get install -y postgresql-client
           psql "$MIGRATE_DSN" \
             -v app_password="$DB_APP_PASSWORD" \
             -v admin_password="$DB_ADMIN_PASSWORD" \
